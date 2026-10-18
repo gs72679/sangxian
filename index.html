@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>桑弦 · 私人邀请函</title>
+    <meta name="description" content="桑弦 SangXian · 23/H/白羊 ESFP">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500&family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400&family=Noto+Serif+SC:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #070708;
+            --surface: rgba(18, 18, 20, 0.9);
+            --text-primary: #f2f2f2;
+            --text-secondary: #a3a3a3;
+            --text-muted: #595959;
+            
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+
+            --font-display: 'Cinzel', 'Noto Serif SC', serif;
+            --font-serif: 'Cormorant Garamond', 'Noto Serif SC', serif;
+            --font-hand: 'Caveat', cursive;
+            --font-sans: 'Inter', 'Noto Serif SC', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg);
+            color: var(--text-primary);
+            line-height: 1.6; /* 整体行高稍微收紧 */
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 30px 0;
+        }
+
+        /* 背景光晕与噪点 */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(circle at 50% -20%, rgba(212, 175, 55, 0.08) 0%, transparent 60%),
+                radial-gradient(circle at 80% 100%, rgba(212, 175, 55, 0.04) 0%, transparent 50%);
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.15;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.8 0 0 0 0 0.7 0 0 0 0 0.5 0 0 0 0.15 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+        }
+
+        .invitation-card {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 640px;
+            margin: 0 16px;
+            background: var(--surface);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), inset 0 0 40px rgba(0,0,0,0.5);
+        }
+        
+        .card-inner {
+            border: 1px solid var(--gold);
+            padding: 40px 24px 32px; /* 减小内边距，更紧凑 */
+            position: relative;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02) 0%, transparent 100%);
+        }
+
+        .corner {
+            position: absolute;
+            width: 8px; height: 8px;
+            border: 1px solid var(--gold);
+        }
+        .corner.tl { top: -1px; left: -1px; border-right: none; border-bottom: none; }
+        .corner.tr { top: -1px; right: -1px; border-left: none; border-bottom: none; }
+        .corner.bl { bottom: -1px; left: -1px; border-right: none; border-top: none; }
+        .corner.br { bottom: -1px; right: -1px; border-left: none; border-top: none; }
+
+        /* === 头部 === */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+        }
+        .header .monogram {
+            font-family: var(--font-display);
+            font-size: 9px;
+            letter-spacing: 0.4em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: inline-block;
+        }
+        .header h1 {
+            font-family: var(--font-serif);
+            font-size: clamp(2.8rem, 8vw, 3.8rem);
+            font-weight: 400;
+            font-style: italic;
+            line-height: 1;
+            letter-spacing: 0.05em;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
+        }
+        .header h1::after { content: '.'; color: var(--gold); }
+        .header .vitals {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            font-family: var(--font-sans);
+            font-size: 9px;
+            letter-spacing: 0.2em;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        .header .vitals span:not(:last-child)::after {
+            content: '/';
+            margin-left: 10px;
+            color: var(--gold);
+            opacity: 0.6;
+        }
+        .signature-hand {
+            position: absolute;
+            top: -5px;
+            right: 0;
+            font-family: var(--font-hand);
+            font-size: 1.5rem;
+            color: var(--gold);
+            opacity: 0.8;
+            transform: rotate(5deg);
+        }
+
+        /* === 对话区（大幅缩小字号） === */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px; /* 缩减消息间距 */
+            margin-bottom: 40px;
+        }
+        .message {
+            position: relative;
+            text-align: center;
+        }
+        .message .label {
+            font-family: var(--font-sans);
+            font-size: 8px;
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            display: block;
+        }
+        .message .text {
+            font-family: var(--font-serif);
+            font-size: 1.05rem; /* 从 1.3rem 降下来 */
+            line-height: 1.6;
+            color: var(--text-primary);
+        }
+        .message.left .text { font-style: italic; }
+        .message.right .text { color: var(--gold-light); font-weight: 500; font-style: normal; }
+
+        /* === 交互区 === */
+        .interaction-area {
+            margin-bottom: 36px;
+            text-align: center;
+        }
+        .interaction-label {
+            font-family: var(--font-display);
+            font-size: 9px;
+            letter-spacing: 0.3em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        .interaction-label::before,
+        .interaction-label::after {
+            content: '';
+            width: 24px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.4;
+        }
+        .options-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+        }
+        .option-btn {
+            width: 100%;
+            max-width: 280px;
+            text-align: center;
+            padding: 12px 16px;
+            background: transparent;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .option-btn::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%;
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+        .option-btn:hover { border-color: var(--gold); color: var(--text-primary); }
+        .option-btn:hover::before { left: 100%; }
+        .option-btn.active {
+            border-color: var(--gold);
+            background: rgba(212, 175, 55, 0.05);
+            color: var(--gold-light);
+        }
+
+        /* 回复框（缩小字号，去掉过于夸张的斜体） */
+        .response-box {
+            margin-top: 16px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.4);
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            min-height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+        .response-box.show { opacity: 1; transform: translateY(0); }
+        .response-text {
+            font-family: var(--font-serif);
+            font-size: 1rem; /* 回复文字缩小 */
+            line-height: 1.6;
+            color: var(--text-primary);
+            letter-spacing: 0.02em;
+        }
+        .response-text strong { font-style: normal; font-weight: 500; color: var(--gold); }
+
+        /* RSVP 分割线 */
+        .rsvp-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 32px 0;
+            gap: 16px;
+        }
+        .rsvp-divider::before, .rsvp-divider::after {
+            content: '';
+            width: 40px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.3;
+        }
+        .rsvp-divider span {
+            font-family: var(--font-display);
+            font-size: 10px;
+            color: var(--gold);
+            letter-spacing: 0.3em;
+        }
+
+        /* === 标签 === */
+        .tags-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px 16px;
+            margin-bottom: 32px;
+            font-family: var(--font-serif);
+        }
+        .tag-item {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.05em;
+            position: relative;
+        }
+        .tag-item:not(:last-child)::after {
+            content: '·';
+            position: absolute;
+            right: -10px;
+            color: var(--gold);
+            opacity: 0.6;
+        }
+
+        /* === 温馨提示 === */
+        .notice-box {
+            margin-bottom: 32px;
+            padding: 16px;
+            border: 1px dashed rgba(212, 175, 55, 0.25);
+            background: rgba(0,0,0,0.2);
+        }
+        .notice-box h3 {
+            font-family: var(--font-display);
+            font-size: 9px;
+            letter-spacing: 0.25em;
+            color: var(--gold);
+            text-transform: uppercase;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .notice-box p {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        .notice-box .highlight { color: var(--gold-light); }
+
+        /* === 跳转链接（稍微放大，提升清晰度） === */
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(212, 175, 55, 0.15);
+        }
+        .mini-link {
+            font-family: var(--font-sans);
+            font-size: 0.9rem; /* 从 0.75 放大 */
+            color: var(--text-primary); /* 颜色加亮 */
+            text-decoration: none;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            position: relative;
+            opacity: 0.8;
+        }
+        .mini-link::after {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; right: 0;
+            height: 1px;
+            background: var(--gold);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+        .mini-link:hover { 
+            color: var(--gold-light); 
+            opacity: 1;
+        }
+        .mini-link:hover::after { transform: scaleX(1); }
+
+        /* 移动端进一步微调 */
+        @media (max-width: 560px) {
+            body { padding: 16px 0; }
+            .invitation-card { margin: 0 8px; padding: 8px; }
+            .card-inner { padding: 32px 16px 24px; }
+            .header h1 { font-size: 2.6rem; }
+            .signature-hand { font-size: 1.2rem; top: -5px; }
+            .message .text { font-size: 1rem; } /* 手机端降到 1rem */
+            .response-text { font-size: 0.95rem; }
+            .option-btn { max-width: 100%; }
+            .tags-section { gap: 6px 12px; }
+            .tag-item:not(:last-child)::after { right: -8px; }
+            .notice-box { padding: 12px; }
+            .mini-link { font-size: 0.85rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="invitation-card">
+        <div class="card-inner">
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+
+            <header class="header">
+                <div class="monogram">Private Invitation</div>
+                <div class="signature-hand">SangXian.</div>
+                <h1>桑弦</h1>
+                <div class="vitals">
+                    <span>23</span>
+                    <span>H</span>
+                    <span>白羊</span>
+                    <span>ESFP</span>
+                </div>
+            </header>
+
+            <!-- 对话区 -->
+            <div class="chat-container">
+                <div class="message left">
+                    <span class="label">SangXian</span>
+                    <div class="text">
+                        抱歉刚刚走神了…<br>
+                        你刚才说什么？
+                    </div>
+                </div>
+                <div class="message right">
+                    <span class="label">You</span>
+                    <div class="text">
+                        我说，你好像很容易让人误会。
+                    </div>
+                </div>
+                <div class="message left">
+                    <span class="label">SangXian</span>
+                    <div class="text">
+                        误会什么？<br>
+                        误会我对你有意思吗？
+                    </div>
+                </div>
+            </div>
+
+            <!-- 交互区 1：怎么回他 -->
+            <div class="interaction-area">
+                <div class="interaction-label">Choose Your Reply</div>
+                <div class="options-grid">
+                    <button class="option-btn" data-target="reply" data-response="那我可当真了。">那我可当真了。</button>
+                    <button class="option-btn" data-target="reply" data-response="你每次都这样。">你每次都这样。</button>
+                    <button class="option-btn" data-target="reply" data-response="……（沉默）">……（沉默）</button>
+                </div>
+                <div class="response-box" id="replyBox">
+                    <div class="response-text">
+                        <em style="color: var(--text-muted); font-size: 0.85rem; letter-spacing: 0.1em;">SELECT AN OPTION.</em>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RSVP 分割线 -->
+            <div class="rsvp-divider">
+                <span>R.S.V.P</span>
+            </div>
+
+            <!-- 交互区 2：是否准时赴约 -->
+            <div class="interaction-area">
+                <div class="interaction-label">Are You Coming?</div>
+                <div class="options-grid">
+                    <button class="option-btn" data-target="rsvp" data-response="准时赴约">准时赴约</button>
+                    <button class="option-btn" data-target="rsvp" data-response="迟到一小时">迟到一小时</button>
+                    <button class="option-btn" data-target="rsvp" data-response="放他鸽子">放他鸽子</button>
+                </div>
+                <div class="response-box" id="rsvpBox">
+                    <div class="response-text">
+                        <em style="color: var(--text-muted); font-size: 0.85rem; letter-spacing: 0.1em;">PENDING CONFIRMATION.</em>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 标签 -->
+            <div class="tags-section">
+                <span class="tag-item">进攻型猫系</span>
+                <span class="tag-item">温情占有</span>
+                <span class="tag-item">暧昧调情</span>
+                <span class="tag-item">恶趣挑逗</span>
+                <span class="tag-item">清冷钓系</span>
+                <span class="tag-item">轻松自然</span>
+                <span class="tag-item">安抚纯爱</span>
+            </div>
+
+            <!-- 须知 -->
+            <div class="notice-box">
+                <h3>Terms & Conditions</h3>
+                <p><span class="highlight">拒</span> 16- / 低无 / 直女 / 单口 / 话少 / intp，非要点 +5</p>
+                <p>吃配合，不配合我会变得很一般。</p>
+                <p>相互尊重，回合制交流，尽量不要打断彼此说话。</p>
+                <p>平权 / 左位爱好者，特别排斥硬嬷 / 强压。我一直哄你。</p>
+            </div>
+
+            <!-- 链接 -->
+            <div class="footer-links">
+                <a class="mini-link" href="https://www.kdocs.cn/l/cbW0QJsd1B8b" target="_blank" rel="noopener noreferrer">[ 板评 ]</a>
+                <a class="mini-link" href="https://www.kdocs.cn/l/clRuIiJSjHsE" target="_blank" rel="noopener noreferrer">[ 话术 ]</a>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const options = document.querySelectorAll('.option-btn');
+        const replyBox = document.getElementById('replyBox');
+        const rsvpBox = document.getElementById('rsvpBox');
+
+        const replyData = {
+            '那我可当真了。': '桑弦：<strong>“当真啊……</strong><br>那你要不要先过来，让我看看你有多当真？”',
+            '你每次都这样。': '桑弦：<strong>“每次都这样？”</strong><br>“可我每次，都只对你这样啊。”',
+            '……（沉默）': '桑弦：<strong>“不说话？”</strong><br>“沉默也算一种回答。我收下了。”'
+        };
+
+        const rsvpData = {
+            '准时赴约': '<strong>“这么乖？”</strong><br>那我不迟到。你到了直接推门，我在里面等你。',
+            '迟到一小时': '<strong>“一小时……”</strong><br>刚好够我洗个澡，换身衣服，顺便想想要怎么罚你。',
+            '放他鸽子': '<strong>“真不来啊。”</strong><br>行，我记下了。下次见面，你要怎么补偿我？'
+        };
+
+        options.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const target = btn.dataset.target;
+                const text = btn.dataset.response;
+                
+                const group = btn.parentElement;
+                group.querySelectorAll('.option-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const box = target === 'reply' ? replyBox : rsvpBox;
+                const textEl = box.querySelector('.response-text');
+                const data = target === 'reply' ? replyData : rsvpData;
+                const reply = data[text] || '桑弦：<em>（笑了一下，没有接话。）</em>';
+
+                box.classList.remove('show');
+                setTimeout(() => {
+                    textEl.innerHTML = reply;
+                    box.classList.add('show');
+                }, 200);
+            });
+        });
+    </script>
+
+</body>
+</html>
